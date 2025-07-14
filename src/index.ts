@@ -6,7 +6,11 @@ export const removeExportPlugin = (outputFileName: string): RolldownPlugin => ({
 	generateBundle(_outputOptions, outputBundle) {
 		const packageJson = createRequire(import.meta.url)("./../package.json");
 		const chunk = outputBundle[outputFileName] as OutputChunk;
-		chunk.code = `// transpile from ${packageJson.name}@${packageJson.version}\n${chunk.code.replace(/\n\/\/#endregion\nexport \{ .+ \};$/, "")}`;
+		if (!chunk) {
+			console.error(`chunk not found: ${outputFileName}`);
+			return;
+		}
+		chunk.code = `// transpile from ${packageJson.name}@${packageJson.version}\n${chunk.code.replace(/\n\/\/#endregion\nexport \{ .+ \};$/, "\n//#endregion")}`;
 	},
 });
 
