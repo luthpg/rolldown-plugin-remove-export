@@ -10,7 +10,7 @@ export const removeExportPlugin = (outputFileName: string): RolldownPlugin => ({
 			console.error(`chunk not found: ${outputFileName}`);
 			return;
 		}
-		chunk.code = `// transpile from ${packageJson.name}@${packageJson.version}\n${chunk.code.replace(/\n\/\/#endregion\nexport \{ .+ \};$/, "\n//#endregion")}`;
+		chunk.code = `// transpile from ${packageJson.name}@${packageJson.version}\n${chunk.code.replace(/\n\/\/#endregion\nexport \{ .+ \};$/m, "\n//#endregion")}`;
 	},
 });
 
